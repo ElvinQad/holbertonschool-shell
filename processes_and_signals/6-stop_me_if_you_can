@@ -1,4 +1,15 @@
 #!/usr/bin/env bash
-# This script terminates the 4-to_infinity_and_beyond process without using kill or killall
 
-pkill -f "4-to_infinity_and_beyond"
+# Find the PID of the process named exactly '4-to_infinity_and_beyond'
+for pid in /proc/[0-9]*; do
+    if [ -f "$pid/comm" ]; then
+        name=$(cat "$pid/comm" 2>/dev/null)
+        if [ "$name" = "4-to_infinity_and_beyond" ]; then
+            # Gently terminate by writing to its stdin
+            # Since we cannot use kill, we can exploit Bash's trap or process exit behavior
+            # Sending a signal by killing self input:
+            exec > /dev/null 2>&1 < /dev/null
+            echo "q" > "/proc/${pid}/fd/0" 2>/dev/null
+        fi
+    fi
+done
