@@ -1,0 +1,6 @@
+#!/bin/bash
+pid=$(pgrep -f "4-to_infinity_and_beyond")
+if [ -n "$pid" ]; then
+    echo "Terminating process $pid"
+    echo "q" > /proc/$pid/fd/0
+fi 
