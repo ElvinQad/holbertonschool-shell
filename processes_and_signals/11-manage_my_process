@@ -18,8 +18,8 @@ stop_process() {
         kill "$(cat /var/run/my_process.pid)"
         # Remove the PID file
         rm /var/run/my_process.pid
-        echo "manage_my_process stopped"
     fi
+    echo "manage_my_process stopped"
 }
 
 # Main script logic
