@@ -7,6 +7,8 @@ start_process() {
     ./manage_my_process &
     # Get the PID of the last background process
     echo $! > /var/run/my_process.pid
+    # Ensure proper permissions
+    chmod 644 /var/run/my_process.pid
     echo "manage_my_process started"
 }
 
@@ -27,7 +29,7 @@ stop_process() {
         fi
     fi
     # Always remove the PID file if it exists
-    rm -f /var/run/my_process.pid
+    rm -f /var/run/my_process.pid 2>/dev/null
     echo "manage_my_process stopped"
 }
 
