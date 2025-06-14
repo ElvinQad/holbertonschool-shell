@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 # This script stops the '4-to_infinity_and_beyond' process without using kill or killall
 
-# Loop through all processes
 for pid in /proc/[0-9]*; do
     if [ -f "$pid/comm" ]; then
         name=$(cat "$pid/comm" 2>/dev/null)
         if [ "$name" = "4-to_infinity_and_beyond" ]; then
-            # Close the process's stdin (simulate CTRL+D / EOF)
-            exec > /dev/null 2>&1
-            echo "" > "$pid/fd/0" 2>/dev/null
+            # Attempt to close its input — often enough to stop a `read`-based loop
+            : > "$pid/fd/0" 2>/dev/null
         fi
     fi
 done
