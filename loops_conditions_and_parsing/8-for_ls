@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
-# This script displays the contents of the current directory
+# This script displays the contents of the current directory after the first dash
 
 for file in *
 do
-    echo "$file"
+    if [[ "$file" == *-* ]]
+    then
+        echo "${file#*-}"
+    fi
 done 
