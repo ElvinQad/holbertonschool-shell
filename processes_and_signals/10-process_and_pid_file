@@ -1,15 +1,29 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # This script creates a PID file and runs an infinite loop that prints "To infinity and beyond" every 2 seconds
-# Create PID file
-echo $$ > /var/run/myscript.pid
 
-# Signal handlers
-trap 'echo "I hate the kill command"' SIGTERM
+PIDFILE="/var/run/myscript.pid"
+
+# Function to handle cleanup
+cleanup() {
+    echo "Cleaning up..."
+    rm -f "$PIDFILE"
+    exit 0
+}
+
+# Trap SIGINT
 trap 'echo "Y U no love me?!"' SIGINT
-trap 'rm -f /var/run/myscript.pid; exit' SIGQUIT SIGTERM
 
-while true
-do
+# Trap SIGTERM
+trap 'echo "I hate the kill command"; cleanup' SIGTERM
+
+# Trap SIGQUIT
+trap 'echo "Received SIGQUIT"; cleanup' SIGQUIT
+
+# Write PID to file
+echo $$ > "$PIDFILE"
+
+# Infinite loop
+while true; do
     echo "To infinity and beyond"
-    sleep 2
-done 
+    sleep 1
+done
