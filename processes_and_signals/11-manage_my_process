@@ -15,7 +15,7 @@ stop_process() {
     # Check if PID file exists
     if [ -f /var/run/my_process.pid ]; then
         # Kill the process using the PID
-        kill $(cat /var/run/my_process.pid)
+        kill "$(cat /var/run/my_process.pid)"
         # Remove the PID file
         rm /var/run/my_process.pid
         echo "manage_my_process stopped"
