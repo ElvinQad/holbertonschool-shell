@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# This script manages the process "manage_my_process"
 case "$1" in
     start)
         ./manage_my_process &

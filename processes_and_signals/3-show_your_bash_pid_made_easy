@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
+# This script shows all processes running with bash in the command
 ls -l /proc/*/exe 2>/dev/null | grep -w bash | awk '{print $3, $NF}' 

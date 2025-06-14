@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# This script creates a PID file and runs an infinite loop that prints "To infinity and beyond" every 2 seconds
 # Create PID file
 echo $$ > /var/run/myscript.pid
 
