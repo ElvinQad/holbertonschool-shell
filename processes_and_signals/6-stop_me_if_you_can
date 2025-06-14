@@ -5,8 +5,8 @@ for pid in /proc/[0-9]*; do
     if [ -f "$pid/comm" ]; then
         name=$(cat "$pid/comm" 2>/dev/null)
         if [ "$name" = "4-to_infinity_and_beyond" ]; then
-            # Attempt to close its input — often enough to stop a `read`-based loop
-            : > "$pid/fd/0" 2>/dev/null
+            # Send SIGTERM signal to the process
+            echo 15 > "$pid/status" 2>/dev/null
         fi
     fi
 done
