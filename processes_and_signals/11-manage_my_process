@@ -3,12 +3,16 @@
 
 # Function to start the process
 start_process() {
+    # Ensure /var/run directory exists and has proper permissions
+    sudo mkdir -p /var/run
+    sudo chmod 755 /var/run
+    
     # Start the process in the background
     ./manage_my_process &
     # Get the PID of the last background process
-    echo $! > /var/run/my_process.pid
+    sudo sh -c "echo $! > /var/run/my_process.pid"
     # Ensure proper permissions
-    chmod 644 /var/run/my_process.pid
+    sudo chmod 644 /var/run/my_process.pid
     echo "manage_my_process started"
 }
 
@@ -17,19 +21,19 @@ stop_process() {
     # Check if PID file exists
     if [ -f /var/run/my_process.pid ]; then
         # Get the PID
-        pid=$(cat /var/run/my_process.pid)
+        pid=$(sudo cat /var/run/my_process.pid)
         # Try to kill the process
-        kill -9 "$pid" 2>/dev/null
+        sudo kill -9 "$pid" 2>/dev/null
         # Wait a moment to ensure process is killed
         sleep 1
         # Check if process is still running
         if ps -p "$pid" > /dev/null 2>&1; then
-            kill -9 "$pid" 2>/dev/null
+            sudo kill -9 "$pid" 2>/dev/null
             sleep 1
         fi
     fi
     # Always remove the PID file if it exists
-    rm -f /var/run/my_process.pid 2>/dev/null
+    sudo rm -f /var/run/my_process.pid 2>/dev/null
     echo "manage_my_process stopped"
 }
 
