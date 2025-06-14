@@ -31,8 +31,8 @@ case "$1" in
         stop_process
         ;;
     restart)
-        stop_process
-        start_process
+        stop_process > /dev/null
+        start_process > /dev/null
         echo "manage_my_process restarted"
         ;;
     *)
