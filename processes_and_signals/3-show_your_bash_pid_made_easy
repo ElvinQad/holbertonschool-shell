@@ -1,3 +1,12 @@
 #!/usr/bin/env bash
-# This script shows all processes running with bash in the command
-ls -l /proc/*/exe 2>/dev/null | grep -w bash | awk '{print $3, $NF}' 
+# This script lists the PID and name of processes that contain the word "bash" in their name
+
+for pid in /proc/[0-9]*; do
+    cmdline_file="$pid/comm"
+    if [ -f "$cmdline_file" ]; then
+        cmd=$(cat "$cmdline_file" 2>/dev/null)
+        if [[ "$cmd" == *bash* ]]; then
+            echo "${pid##*/} $cmd"
+        fi
+    fi
+done
